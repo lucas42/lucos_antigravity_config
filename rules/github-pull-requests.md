@@ -8,7 +8,7 @@ When assigned or asked to work on a GitHub issue or create a pull request, follo
 
 ## 1. Post a starting comment
 
-Before beginning any code changes, post a comment on the issue using `gh-as-agent` to say you're starting work and give a brief overview of your approach. Write it in the first person, e.g.:
+Before beginning any code changes, post a comment on the issue using `gh-as-agent` to say you're starting work and give a brief overview of your approach. Use the `lucos-developer` persona. Write it in the first person, e.g.:
 
 > I'm going to tackle this by updating the API handler to validate the input before passing it to the database layer, then add a test to cover the new behaviour.
 
@@ -18,6 +18,8 @@ Use the `write_to_file` tool to create the JSON payload and pass it via `--input
 
 Pull requests must be created using `gh-as-agent`, exactly like issue comments and any other GitHub API calls — **never** use `gh pr create` directly (which uses personal credentials instead of the correct bot identity).
 
+Always authenticate as the `lucos-developer` persona.
+
 Write the PR body to a file and pass it via `--input`:
 
 ```bash
@@ -25,7 +27,7 @@ Write the PR body to a file and pass it via `--input`:
 # {"title": "Fix the thing", "head": "my-branch", "base": "main", "body": "Closes #42\n\n..."}
 
 # Step 2: call gh-as-agent
-/Users/lucas/antigravity-repos/lucos_agent/gh-as-agent repos/lucas42/{repo}/pulls \
+/Users/lucas/antigravity-repos/lucos_agent/gh-as-agent --app lucos-developer repos/lucas42/{repo}/pulls \
     --method POST \
     --input /tmp/gh-payload.json
 ```
