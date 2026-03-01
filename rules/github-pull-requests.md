@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # GitHub Pull Request Workflow
 
 When assigned or asked to work on a GitHub issue or create a pull request, follow this workflow:

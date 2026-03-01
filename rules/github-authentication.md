@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # GitHub Authentication: Always Use lucos-agent Bot
 
 When making GitHub API calls, **always authenticate as the `lucos-agent` GitHub App** rather than using personal credentials (`gh api` directly). This ensures that all issues, comments, and pull requests appear under the `lucos-agent[bot]` account with its associated avatar, keeping bot activity clearly distinct from human activity.
