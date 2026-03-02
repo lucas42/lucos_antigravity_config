@@ -12,7 +12,13 @@ Before beginning any code changes, post a comment on the issue using `gh-as-agen
 
 > I'm going to tackle this by updating the API handler to validate the input before passing it to the database layer, then add a test to cover the new behaviour.
 
-Use the `write_to_file` tool to create the JSON payload and pass it via `--input`.
+Use the `gh-as-agent` command directly with `-f` flags:
+
+```bash
+/Users/lucas/antigravity-repos/lucos_agent/gh-as-agent --app lucos-developer repos/lucas42/{repo}/issues/{number}/comments \
+    --method POST \
+    -f body="I'm going to tackle this by updating the API handler to validate the input before passing it to the database layer, then add a test to cover the new behaviour."
+```
 
 ## 2. Create pull requests using `gh-as-agent`
 
@@ -20,16 +26,15 @@ Pull requests must be created using `gh-as-agent`, exactly like issue comments a
 
 Always authenticate as the `lucos-developer` persona.
 
-Write the PR body to a file and pass it via `--input`:
+Write the PR details using `-f` flags:
 
 ```bash
-# Step 1: use the Write tool to create /tmp/gh-payload.json, e.g.:
-# {"title": "Fix the thing", "head": "my-branch", "base": "main", "body": "Closes #42\n\n..."}
-
-# Step 2: call gh-as-agent
 /Users/lucas/antigravity-repos/lucos_agent/gh-as-agent --app lucos-developer repos/lucas42/{repo}/pulls \
     --method POST \
-    --input /tmp/gh-payload.json
+    -f title="Fix the thing" \
+    -f head="my-branch" \
+    -f base="main" \
+    -f body="Closes #42\n\n..."
 ```
 
 ## 3. Tag commits and pull requests with the issue

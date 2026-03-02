@@ -23,7 +23,8 @@ The script accepts the same arguments as `gh api`:
 ```bash
 /Users/lucas/antigravity-repos/lucos_agent/gh-as-agent --app lucos-developer repos/lucas42/{repo}/issues \
     --method POST \
-    --input /tmp/gh-payload.json
+    -f title="Issue title" \
+    -f body="Issue body with \`code\` and **markdown**"
 ```
 
 To authenticate as a different app persona, pass `--app <app-name>` as the **first** argument:
@@ -32,24 +33,21 @@ To authenticate as a different app persona, pass `--app <app-name>` as the **fir
 /Users/lucas/antigravity-repos/lucos_agent/gh-as-agent --app lucos-issue-manager \
     repos/lucas42/{repo}/issues \
     --method POST \
-    --input /tmp/gh-payload.json
+    -f title="Issue title"
 ```
 
-## Handling request bodies with text content
+## Handling request bodies
 
-When the request body contains Markdown (e.g. issue titles/bodies, PR descriptions, comments), **write the JSON payload to a temporary file first** and pass it via `--input`. This prevents backticks and other special characters in Markdown from being misinterpreted as shell command substitution (which would trigger a manual-approval prompt).
+When the request body contains Markdown (e.g. issue titles/bodies, PR descriptions, comments), use `-f` flags to pass the fields directly to the command.
 
 ```bash
-# Step 1: write the payload to a file using the write_to_file tool, e.g. /tmp/gh-payload.json:
-# {"title": "Issue title", "body": "Issue body with `code` and **markdown**"}
-
-# Step 2: call gh-as-agent with --app lucos-developer and --input
 /Users/lucas/antigravity-repos/lucos_agent/gh-as-agent --app lucos-developer repos/lucas42/{repo}/issues \
     --method POST \
-    --input /tmp/gh-payload.json
+    -f title="Issue title" \
+    -f body="Issue body with \`code\` and **markdown**"
 ```
 
-For requests with no body or simple flag values (e.g. adding labels), `-f` flags are fine:
+For fields that are not strings (e.g. simple lists), you can also use `-f`:
 
 ```bash
 /Users/lucas/antigravity-repos/lucos_agent/gh-as-agent --app lucos-developer \
@@ -71,5 +69,5 @@ scp -P 2202 "creds.l42.eu:lucos_agent/development/.env" /Users/lucas/antigravity
 | Do | Don't |
 |----|-------|
 | `/Users/lucas/antigravity-repos/lucos_agent/gh-as-agent --app lucos-developer repos/…` | `gh api repos/…` |
-| Write Markdown payloads to a file and use `--input` | Embed Markdown in `-f body="…"` |
+| Use `-f` flags for Markdown payloads | Use persona-neutral `gh` for bot actions |
 | lucos-developer persona (via `--app lucos-developer`) | Use personal GitHub credentials |
